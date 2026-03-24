@@ -23,7 +23,7 @@ connectDB()
 
 /* MIDDLEWARE */
 app.use(cors({
-  origin: "http://localhost:5173",
+  origin: process.env.NODE_ENV === 'production' ? true : "http://localhost:5173",
   credentials: true
 }));
 
@@ -90,6 +90,10 @@ app.use((err, req, res, next) => {
 /* SERVER START */
 const PORT = process.env.PORT || 3000;
 
-app.listen(PORT, () => {
-  console.log(`🔥 Server running on http://localhost:${PORT}`);
-});
+if (process.env.NODE_ENV !== 'production') {
+  app.listen(PORT, () => {
+    console.log(`🔥 Server running on http://localhost:${PORT}`);
+  });
+}
+
+export default app;
